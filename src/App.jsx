@@ -1,26 +1,35 @@
 import { useState } from 'react'
+import PortfolioForm from './components/PortfolioForm'
+import PortfolioSummary from './components/PortfolioSummary'
+import PositionsTable from './components/PositionsTable'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [refreshKey, setRefreshKey] = useState(0)
+  const refresh = () => setRefreshKey(k => k+1)
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">
-          Vibe Coding Platform
-        </h1>
-        <p className="text-gray-600 mb-6">
-          Your AI-powered development environment
-        </p>
-        <div className="text-center">
-          <button
-            onClick={() => setCount(count + 1)}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
-          >
-            Count is {count}
-          </button>
-        </div>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+      <header className="px-6 py-4 border-b bg-white/70 backdrop-blur sticky top-0">
+        <h1 className="text-2xl font-bold">Mi Portfolio</h1>
+        <p className="text-sm text-gray-600">Moneda base: EUR (conversión automática de USD/EUR)</p>
+      </header>
+
+      <main className="max-w-6xl mx-auto p-6 space-y-8">
+        <section className="bg-white rounded-xl p-6 shadow-sm border">
+          <h2 className="font-semibold mb-3">Añadir operación</h2>
+          <PortfolioForm onAdded={refresh} />
+        </section>
+
+        <section className="bg-white rounded-xl p-6 shadow-sm border">
+          <h2 className="font-semibold mb-3">Resumen</h2>
+          <PortfolioSummary />
+        </section>
+
+        <section className="bg-white rounded-xl p-6 shadow-sm border">
+          <h2 className="font-semibold mb-3">Posiciones</h2>
+          <PositionsTable refreshKey={refreshKey} />
+        </section>
+      </main>
     </div>
   )
 }
